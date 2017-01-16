@@ -1,0 +1,154 @@
+#! armcc -E -I. -IShare/Hal/1093
+#include "scf_inc.h"
+#include "MemoryMap.h"
+
+;----------------------------------------------------------------------------
+; ROM layout : single linear region VS multiple scattered regions
+;----------------------------------------------------------------------------
+#ifdef SCF_LINEAR_REGION
+    #define DTCM_LOAD_BASE +0
+#else
+    #define DTCM_LOAD_BASE	CPU0_DTCM_ADDR
+#endif
+
+;----------------------------------------------------------------------------
+; ROM CODE LOAD
+;----------------------------------------------------------------------------
+ROM_LOAD  0
+{
+    ITCM            CPU0_ITCM_ADDR    CPU0_ITCM_SIZE
+    {
+        * (code_vector0, +First)
+        * (code_perf)
+        * (code_fast)
+        * (+RO)
+        * (.constdata)
+        * (data_perf_ro)
+        * (data_fast_ro)
+        * armlib* (+RO)
+        * (i.__ARM*)
+    }
+
+    ; To get last used ITCM address
+    ITCM_USED_LAST  +0 UNINIT
+    {
+        * (itcm_used_last)
+    }
+}
+
+;----------------------------------------------------------------------------
+; DATA TCM VARIABLE LOAD
+;----------------------------------------------------------------------------
+DTCM_LOAD   DTCM_LOAD_BASE  CPU0_DTCM_SIZE
+{
+    DTCM_USER       CPU0_DTCM_ADDR
+    {
+        * (data_perf)
+        * (data_fast)
+        * (+RW,+ZI)
+    }
+
+    DTCM_UI         +0 UNINIT
+    {
+        * (data_fast_ui)
+        * (data_perf_ui)
+    }
+
+    ; for ARM lib and semi-hosting
+    ARM_LIB_STACKHEAP +0 EMPTY ARM_LIB_STACKHEAP_SIZE
+    {
+    }
+
+    ; To get last used DTCM address
+    DTCM_USED_LAST  +0 UNINIT
+    {
+        * (dtcm_used_last)
+    }
+
+    ; To check DTCM overflow
+    DTCM_LAST       CPU0_DTCM_ADDR+CPU0_DTCM_SIZE EMPTY -0x10
+    {
+    }
+}
+
+;----------------------------------------------------------------------------
+; DRAM Code/Data Load (CPU0 only)
+;----------------------------------------------------------------------------
+DRAM_LOAD CPU0_DRAM_LOAD_BASE CPU0_DRAM_ALLOC_SIZE
+{
+    DRAM_CODE +0
+    {
+        * (code_norm)
+        * (code_dram)
+    }
+
+    DRAM_DATA   +0
+    {
+        * (data_norm_ro)
+        * (data_dram_ro)
+        * (data_norm)
+        * (data_dram)
+    }
+
+    DRAM_DATA_UI +0 UNINIT
+    {
+        * (data_norm_ui)
+        * (data_dram_ui)
+    }
+
+    ; To check DRAM overflow
+    DRAM_LAST       CPU0_DRAM_LOAD_BASE+CPU0_DRAM_ALLOC_SIZE EMPTY -0x10
+    {
+    }
+
+    ; To get last used DRAM address
+    DRAM_USED_LAST   DRAM_USED_LAST_BASE UNINIT
+    {
+        * (dram_used_last)
+    }
+}
+
+;----------------------------------------------------------------------------
+; SHARED TCM VARIABLE LOAD
+;----------------------------------------------------------------------------
+STCM_LOAD SHARED_TCM_ADDR SHARED_TCM_SIZE
+{
+    STCM_USER       SHARED_TCM_ADDR UNINIT
+    {
+        * (data_perf_sh)
+    }
+
+    ; To get last used STCM address
+    STCM_USED_LAST  +0 UNINIT
+    {
+        * (stcm_used_last)
+    }
+
+    ; To check STCM overflow
+    STCM_LAST       SHARED_TCM_ADDR+SHARED_TCM_SIZE EMPTY -0x10
+    {
+    }
+}
+
+;----------------------------------------------------------------------------
+; SHARED SPM(Scratch Pad Memory) data Load
+;----------------------------------------------------------------------------
+SSPM_LOAD SHARED_SPM_ADDR SHARED_SPM_SIZE
+{
+    SSPM_USER       SHARED_SPM_ADDR UNINIT
+    {
+        * (data_sspm_sh)
+        * (data_fast_sh)
+    }
+
+    ; To get last used SSPM address
+    SSPM_USED_LAST  +0 UNINIT
+    {
+        * (sspm_used_last)
+    }
+
+    ; To check SSPM overflow
+    SSPM_LAST       SHARED_SPM_ADDR+SHARED_SPM_SIZE EMPTY -0x10
+    {
+    }
+}

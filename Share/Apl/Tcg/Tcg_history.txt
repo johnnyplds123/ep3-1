@@ -1,0 +1,447 @@
+[2016/12/21 17:30 PM]
+1.Issue:  None
+  Action: Extand tTcgLogAddr to 32-bits for 3D-TLC Nand flash.
+  Modify: [Tcg.c] [Tcg.h] [TcgCommon.h] [TcgNfif.c] [TcgNfif.h] [TCGNfRdWr.c] [TCGNfRdWr.h]
+
+[2016/11/25 17:30 PM]
+1.Issue:  None
+  Action: Remove structure "tTcgPaa" and replace by tPAA.
+  Modify: [TcgNfRdWr.c] [TcgNfRdWr.h]
+
+[2016/11/22 17:00 PM]
+1.Issue:  None
+  Action: Remove function "TCGNFIF_ParamsSet()", and use messag
+          to passing TCG_NFIF parameters. Brief revise ReadDS and
+          ReadSMBR code flow.
+  Modify: [TcgNfif.c] [TcgNfif.h] [TCGNfRdWr.c] [TCGNfRdWr.h]
+
+1.Issue:  None
+  Action: Revise TCG coding style and variable naming
+  Modify: [MonCmdCore.c] [Tcg.c] [Tcg.h] [TcgCommon.h] [TcgNfif.c]
+          [TcgNfif.h] [TCGNfRdWr.c] [TCGNfRdWr.h]
+
+[2016/11/2 17:00 PM]
+1.Issue:  Sync CX2 WinMagic issue: WinMagic SecureDoc pop a error message "Unable to unlock media ...."
+          during pre-boot.
+  Action: SecureDoc wirte LBA0 to datastore0~511 when install SecureDoc.
+          It just write 0.5K not all page. After power off-on cycle,
+          at frist time pre-boot writing datastore,
+          fw should read back exist LBA0 data and combin new data in a page
+          then write to NAND.
+  Modify: [Tcg.c]
+
+[2016/11/2 13:30 PM]
+1.Issue:  None
+  Action: Replace SYSINFO_Synchronize() by SyIn_Synchronize().
+  Modify: [TCG.c] [MonCmdCore.c] [TcgNfRdWr.c]
+
+2.Issue:  None
+  Action: Change SYSINFO_MISC_AREA to SI_AREA_MISC.
+  Modify: [TCG.c] [MonCmdCore.c] [TcgNfRdWr.c]
+
+3.Issue:  None
+  Action: Add a tSI_ERR_SOURCE "SI_SYNC_BY_TCG".
+  Modify: [SysInfo.h]
+
+4.Issue:  None
+  Action: Fix a bug about G5 read FTL Error.
+  Modify: [TcgNfIf.c]
+
+5.Issue:  None
+  Action: Create a definition "TCG_NAND_SLC_PAGECNT_STEP" and modify the
+          SLC_OFF() function.
+  Modify: [TcgNfRdWr.h]
+
+[2016/10/31 05:30 PM]
+1.Issue:  None
+  Action: Rename TcgJobIssue() to TcgH2cJobIssue().
+  Modify: [TCG.c] [MonCmdCore.c]
+
+2.Issue:  None
+  Action: Brief revise TCG coding style.
+  Modify: [TCG.c] [TCG.h]
+
+[2016/10/25 05:30 PM]
+1.Issue:  None
+  Action: Renamed MSG_TCG_CLR_Cache and MSG_TCG_INIT_Cache to
+          MSG_TCG_REGEN_ZEROCACHE and MSG_TCG_INIT_ZEROCACHE.
+  Modify: [TCG.c] [Core.c] [TcgNfIf.h]
+
+2.Issue:  None
+  Action: Renamed TcgRdWrParamsSet to TCGNFIF_ParamsSet.
+  Modify: [TcgNfIf.c]
+
+3.Issue:  None
+  Action: Move the definition (TCGNFIF_Start, G4RdRetry, G5RdRetry)
+          from TcgNfIf.h to TcgNfIf.c
+  Modify: [TcgNfIf.c] [TcgNfIf.h]
+
+[2016/10/24 05:30 PM]
+1.Issue:  None
+  Action: Integrate TcgFuncRequest1, TcgFuncRequest2, TcgFuncRequest3 into
+          a new function TcgJobIssue().
+  Modify: [TCG.c] [MonCmdCore.c]
+
+2.Issue:  None
+  Action: Splite a function (TcgResetCache) that independent from TcgFuncRequest2,
+          It's use to send reset cache request to CORE.
+  Modify: [TCG.c]
+
+3.Issue:  None
+  Action: Creat a new function (DS_Read) to replace TcgFuncRequest2(MSG_TCG_DSRD).
+  Modify: [TCG.c] [TCG.h]
+
+[2016/8/26 02:30 PM]
+1.Issue: None
+  Action: Modify TCG Message Transmission process for NormalRead(SMBR),
+          to make sure every tcg function request only to get message pointer one time.
+  Modify: [Ipc.c] [Ipc.h] [Tcg.c] [Tcg.h] [TcgNfif.c] [TcgNfRdwr.c] [TcgNfRdwr.h]
+
+2.Issue: None
+  Action: Remove TcgPrepareH2CMsgContainer(), Repleace by Ipc_GetExtendMsg().
+  Modify: [Ipc.c] [Ipc.h] [Tcg.c] [Tcg.h] [TcgNfif.c] [TcgNfRdwr.c] [TcgNfRdwr.h]
+
+[2016/8/23 02:30 PM]
+1.Issue: None
+  Action: Add 2 TCG Message Structure MsgTcgGroup_t & MsgTcgBuffer_t.
+  Modify: [tcg.c] [TcgNfif.c] [Ipc.h]
+
+[2016/6/28 04:05 PM]
+1.Issue: Tcg Power On Initial Assert
+  Action: Remove IPC message struct Check from TcgInit8PwrOn().
+  Modify: [tcg.c]
+
+[2016/6/28 04:05 PM]
+1.Issue: none
+  Action: Use "MsgTcg_t" to replace "tMSG_HOST", and remove pHcmdMsg_cpy.
+  Modify: [tcg.c] [tcgnfif.c] [TcgNfRdWr.c] [TcgNfRdWr.h]
+
+2.Issue: none
+  Action: Get TCG H2C Messages pointer by "CMSG_GET_MSG_PTR_FROM_INDEX()".
+  Modify: [tcg.c] [tcg.mak] [TcgNfRdWr.c]
+
+3.Issue: none
+  Action: Remove TCG_ReadStreaming().
+  Modify: [tcg.c] [tcg.h]
+
+[2016/5/20 13:51 PM]
+1.Issue: Drive-Master TCG script for NVMe
+  Action: 1. directly abort cmds with Invalid Security Protocol
+          2. fixed some returned error codes
+          3. check CmdPktSize
+  Modify: [Tcg.c] [TcgCommon.c] [NvmeSecuritySend.c]
+
+[2016/5/20 11:15 AM]
+1.Issue: Read command error issure when NVME Drive Master test 1667 items.
+         That is blank error because DM get bolck area of MBR.
+  Action: return OK to CPU0(HOST) when blank MBR read  error.
+  Modify: [TcgNfRdWr.c]
+
+[2016/4/18 04:35 PM]
+1. Issue:  replace Hash function by BCM function call
+   Action:
+   Modify: [BCMxxx]
+
+[2016/4/12 04:05 PM]
+1. Issue:  A bug about reading/writing LBA > 128MB in MBR-S mode
+   Action: modified "TcgRangeCheck()"
+   Modify: [tcg.c]
+
+[2016/4/08 07:08 PM]
+1. Issue: none
+   Action: 1. To check default table. if incorrect then erase tcg area and recommand power off for rebuilding table.
+   Modify: [tcg.c] [tcg.h]
+
+[2016/2/23 02:38 PM]
+1. Issue: none
+   Action: 1. improve read proformance. (change some var form DRAM to B0TCM)
+   Modify: [tcg.c] [tcgnfif.c]
+
+[2016/2/23 11:14 AM]
+1. Issue: none
+   Action: 1. optimize TCG make file.
+   Modify: [cpu0make.mak] [cpu2make.mak]
+   Add   : [tcg.mak]
+   delete: [cpu0tcg.mak] [cp2tcg.mak]
+
+[2016/2/19 08:58 PM]
+1. Issue: 1. Improve Read error handling on TcgInit().
+   Action: none
+   Modify: [TcgNfRdWr.c]
+
+[2016/2/18 03:13 PM]
+1. Issue: 1. hang on TCG_JobWaitComplete(); when normal code error handing is not complete.
+   Action: Use Core_JobWait() to replace TCG_JobWaitComplete()
+   Modify: [TcgNfRdWr.c]
+
+[2016/2/18 11:53 AM]
+1. Issue: 1. There is wrong "for loop" variable condition checking on DataStoreAddr_Update(void) .
+   Action: none
+   Modify: [tcg.c]
+
+[2016/2/17 07:01 PM]
+1. Issue: 1. Data miss compare when transfer MAX LBA length.
+   Action: Prevent ssdStartIdx was changed when "TCGNFIF_SMBRRd" issue a couple times "TCG_ReadLaunched"
+   Modify: [TcgNfRdWr.c][TcgNfIf.c]
+
+[2015/12/31 03:01 PM]
+1. Issue: 1. add TCG_PYRITE_SSC support
+          2. add Block_SID_Authentication FS support
+   Action: NONE
+   Modify: [Tcg.c][Tcg.h][TcgCommon.h][TcgTbl.c][TcgTbl.h]
+
+[2015/12/11 12:25 PM]
+1. Issue: 1. CPU2 ITCM code size is over limit(96K).
+   Action: 1.CACHE_DumpInfo() is moved from FastSection to NormSection.
+           2.Force build TCG code when select EP2 models.
+   Modify: [cache.c][mk.bat]
+
+[2015/12/2 02:36 PM]
+1. Issue: 1. fixed a bug of wrong Register setting for AES Key Length.
+   Action: NONE.
+   Modify: [BcmClientMaes.c]
+
+[2015/11/25 10:36 AM]
+1. Issue: 1. check range HAL_MRE_GetRangeNo() for RZAT.
+   Action: NONE.
+   Modify: [halDMAC.c]
+
+[2015/11/25 10:36 AM]
+1. Issue: 1. take __inline away for reducing BIN size.
+   Action: NONE.
+   Modify: [TcgNfRdWr.c][TcgNfIf.c][TcgNfIf.h][Tcg.c]
+
+[2015/11/24 09:08 PM]
+1. Issue: 1. Fix Discriptors > 64 on TCG_EraseLaunched().
+   Action: NONE.
+   Modify: [TcgNfRdWr.c]
+
+[2015/11/24 06:05 PM]
+1. Issue: 1. Fix CPU2 MRE compiler error.
+   Action: NONE.
+   Modify: [halDmac.c][BcmClientUtility.c][BcmClientMain.c]
+
+2015/11/20 12:40 PM]
+1. Issue: 1. Due to TCG AUX buffer size is not enough cause the SPOR test fail.
+   Action: Modify TCG AUX relative buffer and use MEM_COPY to copy AUX to *pAuxBuf.
+   Modify: [TcgNfRdWr.h][TcgNfRdWr.c]
+
+[2015/11/18 11:25 AM]
+1. Issue: 1. Can't preform TcgInit() completely.
+   Action: Avoid to asign hMsg->hdr.b.status = cMsgWithCache when TcgNfIf was completed.
+   Modify: [CoreMain.c]
+
+[2015/11/6 06:55 PM]
+1. Issue: 1. prevent WriteUncorrectable & WriteZeroes.c when TCG is activated.
+   Action: none
+   Modify: [NvmeWriteUncorrectable.c][NvmeWriteZeroes.c]
+
+
+[2015/11/3 04:50 PM]
+1. Issue: 1. Update TcgTable for U32 Alignment issue again
+          2. ATA Security/TCG security condition check
+   Action: none
+   Modify: [TcgTbl.c][Tcg.c][TcgCommon.h][NvmeIdentify.c][NvmeSecuritySend.c]
+
+[2015/11/3 02:51 PM]
+1. Issue: 1. TCG table is erased on ATA Security Erase All (Block erase)
+   Action: none
+   Modify: [NvmeSecuritySend.c]
+
+[2015/11/2 11:57 AM]
+1. Issue: 1. Modified __line & static to meet C99 rule
+   Action: none
+   Modify: [Tcg.c]
+
+[2015/10/27 05:30 PM]
+1. Issue: 1. Fixed TCG Table U32 Alignment issue
+          2. Workaround for wrong AES key fetch
+   Action: none
+   Modify: [TcgTbl.c][Tcg.c][BcmClientMaes.c]
+
+[2015/10/26 06:10 PM]
+1. Issue: 1. Implement UR & VU Preformat function for TCG.
+   Action: none
+   Modify: [TestCoreCommands.c][NvmeVendorCmd.c]
+
+[2015/10/20 02:50 PM]
+1. Issue: 1. fixed a bug of wrong 1667 P_IN command length.
+          2. Modified TCG UID_K_AES_256: 0x0000000100000806
+   Action: none
+   Modify: [Tcg.c][Tcg.h][TcgCommon.h]
+
+[2015/10/8 04:07 PM]
+1. Issue: Implement Base Cryptographic Module (BCM) functions (including AES/RNG/RSA)
+   Action: none
+   Modify: ...
+
+[2015/10/8 03:23 PM]
+1. Issue: 1. Implement IO write command for reading SMBR. ( TcgRangeCheck() )
+   Action: none
+   Modify: [NvmeWrite.c]
+
+[2015/10/5 04:10 PM]
+1. Issue: 1. Fix normal code compiler error on NvmeRead.c .
+   Action: none
+   Modify: [NvmeRead.c]
+
+[2015/10/02 08:30 PM]
+1. Issue: 1. Implement IO read command for reading SMBR.
+   Action: none
+   Modify: [NvmeRead.c][Tcg.c]
+
+[2015/9/25 09:00 PM]
+1. Issue: 1. Modified log marco.
+   Action: none
+   Modify: [debug.h]
+
+[2015/9/25 03:30 PM]
+1. Issue: 1. Fix TCG DataStore & SMBR miscompare.
+   Action: Modified Descriptor for plane changed.
+   Modify: [hldDesc.c]
+
+[2015/9/24 03:12 PM]
+1. Issue: 1. new a buffer (gPreSubmitBuffer) to replace ScratchBuffer in function Hld_Host_TransferWholeData_WithPRPList().
+   Action: none.
+   Modify: [hldHost.c][hldHost.h][NvmeCmds.c]
+
+[2015/9/24 11:45 AM]
+1. Issue: 1. Fix data incorrect when transfer lenght larger than (HOST_PAGE_SIZE - prp1_4kAlign_offset + HOST_PAGE_SIZE)(PRP1 4K align issue).
+   Action: none.
+   Modify: [hldHost.c][hldHost.h][tcg.c][debug.h]
+
+[2015/9/23 06:20 PM]
+1. Issue: 1. improve data incorrect when transfer lenght larger than 16 KB(PRP1 4K align issue).
+   Action: none.
+   Modify: [hldHost.c][tcg.c][tcg.h]
+
+[2015/9/22 07:35 PM]
+1. Issue: 1. improve data incorrect when transfer lenght larger than 16 KB.
+   Action: none.
+   Modify: [hldHost.c]
+
+[2015/9/21 05:51 PM]
+1. Issue: 1. implement FW that Admin command transfer lenght larger than 16 KB.
+   Action: none.
+   Modify: [debug.h][hldHost.c][Tcg.c][HostBASE.H][sYStYPES.H]
+
+[2015/9/17 07:01 PM]
+1. Issue: 1. Modified Tcg log Marco for debugging.
+   Action: none.
+   Modify: [debug.h]
+
+[2015/9/14 04:36 PM]
+1. Issue: 1. Colorful Tcg log part2 for debugging.
+   Action: none.
+   Modify: [debug.h]
+
+[2015/9/11 10:35 AM]
+1. Issue: 1. Colorful Tcg log for debugging.
+   Action: none.
+   Modify: [debug.h][TcgNfRdWr.h][TcgCommon.h]
+
+[2015/9/9 05:59 PM]
+1. Issue: 1. Modified SecuritySend & SecurityReceive TCG path for APP.
+   Action: none.
+   Modify: [NvmeSecuritySend.c][\NvmeSecurityReceive.c][NvmeSecurityCmd.h][tcg.c][tcg.h]
+
+[2015/9/4 04:53 PM]
+1. Issue: 1. implement NvmeCmd_SecurityReceive PID_00 .
+   Action: none.
+   Modify: [NvmeSecuritySend.c][\NvmeSecurityReceive.c][NvmeSecurityCmd.h]
+
+[2015/9/3 11:22 AM]
+1. Issue: 1. Typesetting TCG.C and TCG.H.
+          2. implement TCG UR cmd.
+   Action: none.
+   Modify: [tcg.c][tcg.h][NvmeService.c]
+
+[2015/9/3 09:57 AM]
+1. Issue: Dute to CPU0 ITCM size is limited , move TestMonCmd.c from ITCM to dram.
+   Action: none.
+   Modify: [TestMonCmd.c]
+
+[2015/9/2 02:24 PM]
+1. Issue: Unity the struct "NvmeAdminSecurityReceiveCommand_t" and "NvmeAdminSecuritySendCommand_t".
+   Action: none.
+   Modify: [tcg.c][NvmeSecuritySend.c][\NvmeSecurityReceive.c][NvmeSecurityCmd.h]
+
+[2015/9/2 10:30 AM]
+1. Issue: Does not select dram type correctly.
+   Action: mvDRAM_select.py doesn't pass Python 3.3 and need to move the mvDRAM_select.py before starting compile.
+   Modify: [m.bat][mvDRAM_select.py]
+
+[2015/9/1 06:20 PM]
+1. Issue: TCG read/write NAND.
+   Action: Fix TCG Read/Write Seqencer and TCG Read/Write AUX data.
+   Modify: [tcg.c][tcgcommon.h][tcgnfrdwr,c][HldDesc.c]
+
+[2015/8/26 05:26 PM]
+1. Issue: 1. reconfig MsgTcg_t and tMSG_HDR for subOpCode.
+          2. fixed H2C message location.
+   Action: none.
+   Modify: [tcg.c][tcgnfif.c][tcgnfrdwr,c][sysinfotype.h][ipc.h][cpu0boot.c][MediaServiceMsgHandler.c]
+
+[2015/8/18 13:30 PM]
+1. Issue: ATA Security Receive/Send command parse to TCG flow.
+   Action: Add TCG/IEEE1667 security procotol ID for parsing.
+   Modify: [NvmeSecuritySend.c][\NvmeSecurityReceive.c]
+   Add: [NvmeSecurityCmd.h]
+
+2. Issue: eHDD Fuzz test randomly tested NG
+   Action: 1. fix the bug of "blkcnt" of LockingTbl was not updated correctly
+           2. re-shape the TCG structure-variables for better memory alignment.
+   Modify: [Tcg.c] [Tcg.h] [TcgTbl.c] [TcgCommon.h]
+
+3. Issue: Some band's data might be cleared (on cache) after one aes key is changed because of no flushing before
+          cache clearing.
+   Action: No cache clearing after aes keys are changed.
+   Modify: [Tcg.c]
+4. Issue: NAND blank area might be read for DataStore/SMBR reading
+   Action: Modified initial paremeter setting for DS/SMBR reading
+   Modify: [TcgNfIf.c]
+
+
+[2015/8/13 01:58 PM]
+1. Issue: Allow FW can be Loaded to DRAM.
+  Action: Allow FW can be Loaded to DRAM. Arragne TCG FW load to DRAM.
+  Modify: [bootlink.sf][cpu0link.sf][cpu1link.sf][cpu2link.sf][mvtool.py][nvmeservice.c][mk.bat][cpu0boot.c]
+          [LoadFirmware.c][memorymap.h][halsys.c][tcg.c]
+     Add: [mvtool_boot.py]
+
+[2015/7/15 03:07 PM]
+1. Issue: porting TCG code of cpu2.
+  Action: porting TCG code of cpu2.
+  Modify: [cpu1make.mak][cpu2make.mak][Cache.c][CoreMain.ch][MediaMain.c][tcgNfIf.c][tcgNfRdWr.c][tcgNfRdWr.h]
+     Add: [cpu2tcg.mak]
+
+[2015/7/13 10:41 AM]
+1. Issue: porting TCG code of cpu0.
+  Action: porting TCG code of cpu0.
+  Modify: [Cache.h][NvmeSecurityReceive.c][host_hal_1093.mak][HalSecurity.h][Debug.h][Ipc.h][SharedVars.h]
+          [SysInfoTypes.h][sha1.c][tcg.c][tcg.h][tcgcommon.h][tcgNfIf.c][tcgNfRdWr.c][tcgTbl.c]
+     Add: [HalSecurity.c]
+
+[2015/7/6 05:35 PM]
+1. Issue: Implement TCG compile frameword.
+  Action: Implement TCG compile frameword.
+  Modify: [bootlink.sf][BuildPkg.h][cpu0link.sf][cpu0make.mak][cpu1link.sf][cpu1make.mak][cpu2link.sf]
+          [MemoryMap.h][m.bat][mk.bat]
+     Add: [scf_inc.h][scf_inc_tcg.h][scf_inc_opal.h][scf_inc_edrv.h][scf_inc_normal.h][cpu0tcg.mak][cpu1tcg.mak]
+          [sha1.c][sha1.h][tcg.c][tcg.h][tcgcommon.h][tcgnfif.c][tcgnfif.h][tcgnfrdwr.c][tcgnfrdwr,h]
+          [tcgsection.h][tcgtbl.c][tcgtbl.h]
+
+[2015/7/6 05:35 PM]
+1. Issue: Implement TCG compile framework.
+  Action: Implement TCG compile framework.
+  Modify: [bootlink.sf][BuildPkg.h][cpu0link.sf][cpu0make.mak][cpu1link.sf][cpu1make.mak][cpu2link.sf]
+          [MemoryMap.h][m.bat][mk.bat]
+     Add: [scf_inc.h][scf_inc_tcg.h][scf_inc_opal.h][scf_inc_edrv.h][scf_inc_normal.h][cpu0tcg.mak][cpu1tcg.mak]
+          [sha1.c][sha1.h][tcg.c][tcg.h][tcgcommon.h][tcgnfif.c][tcgnfif.h][tcgnfrdwr.c][tcgnfrdwr,h]
+          [tcgsection.h][tcgtbl.c][tcgtbl.h]
+
+[2015/7/6 10:38 AM]
+1. Issue: build code error with Python3.X
+  Action: (a)Modified "print" function to compatible Python2.x.
+          (b)Modified "data[total_size-m] = Fw_Revision[n]" to "data[total_size-m] = ord(Fw_Revision[n])" for Python3.X
+  Modify: [mvtool.py]
